@@ -25,7 +25,7 @@ sudo rpi-eeprom-config --edit
 
 # Generic dependencies
 
-sudo apt -y install vim emacs git openssh-server catkin-tools
+sudo apt -y install vim emacs git openssh-server libserial-dev
 
 # ROS install
 
@@ -38,7 +38,7 @@ curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-a
 sudo dpkg -i /tmp/ros2-apt-source.deb
 
 sudo apt update && sudo apt -y install ros-dev-tools
-sudo apt -y install ros-jazzy-desktop ros-jazzy-hardware-interface
+sudo apt -y install ros-jazzy-desktop ros-jazzy-hardware-interface ros-jazzy-teleop-* ros-jazzy-twist-mux*
 
 sudo rosdep init
 rosdep update
