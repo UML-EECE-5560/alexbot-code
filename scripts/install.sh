@@ -1,3 +1,5 @@
+sudo usermod -a -G video student
+
 sudo apt update
 sudo apt upgrade
 
@@ -24,22 +26,48 @@ sudo dpkg -i /tmp/ros2-apt-source.deb
 sudo apt update && sudo apt -y install ros-dev-tools
 sudo apt -y install ros-jazzy-desktop
 
-# Build libcamera
+sudo rosdep init
+rosdep update
 
-sudo apt install -y python-pip git python3-jinja2
-sudo apt install -y libboost-dev
-sudo apt install -y libgnutls28-dev openssl libtiff-dev pybind11-dev
-sudo apt install -y qtbase5-dev libqt5core5a libqt5widgets
-sudo apt install -y meson cmake
-sudo apt install -y python3-yaml python3-ply
-sudo apt install -y libglib2.0-dev libgstreamer-plugins-base1.0-dev
+# Build libcamera - not needed as it is done in camera_ros
 
-git clone https://github.com/raspberrypi/libcamera.git
-cd libcamera
-meson setup build --buildtype=release -Dpipelines=rpi/vc4,rpi/pisp -Dipas=rpi/vc4,rpi/pisp -Dv4l2=true -Dgstreamer=enabled -Dtest=false -Dlc-compliance=disabled -Dcam=disabled -Dqcam=disabled -Ddocumentation=disabled -Dpycamera=enabled
-ninja -C build install
+# sudo apt install -y python-pip git python3-jinja2
+# sudo apt install -y libboost-dev
+# sudo apt install -y libgnutls28-dev openssl libtiff-dev pybind11-dev
+# sudo apt install -y qtbase5-dev libqt5core5a libqt5widgets
+# sudo apt install -y meson cmake
+# sudo apt install -y python3-yaml python3-ply
+# sudo apt install -y libglib2.0-dev libgstreamer-plugins-base1.0-dev
 
-cd ..
+# git clone https://github.com/raspberrypi/libcamera.git
+# cd libcamera
+# meson setup build --buildtype=release -Dpipelines=rpi/vc4,rpi/pisp -Dipas=rpi/vc4,rpi/pisp -Dv4l2=true -Dgstreamer=enabled -Dtest=false -Dlc-compliance=disabled -Dcam=disabled -Dqcam=disabled -Ddocumentation=disabled -Dpycamera=enabled
+# ninja -C build install
+
+# cd ..
+
+# Build rpi-cam utils for debugging
+
+# sudo apt -y install clang meson ninja-build pkg-config libyaml-dev python3-yaml python3-ply python3-jinja2 openssl
+# sudo apt -y install libdw-dev libunwind-dev libudev-dev libudev-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libpython3-dev pybind11-dev libevent-dev libtiff-dev qt6-base-dev qt6-tools-dev-tools liblttng-ust-dev python3-jinja2 lttng-tools libexif-dev libjpeg-dev pybind11-dev libevent-dev libgtest-dev abi-compliance-checker
+
+# git clone https://github.com/raspberrypi/libcamera.git
+# cd libcamera
+# meson setup build --buildtype=release -Dpipelines=rpi/vc4,rpi/pisp -Dipas=rpi/vc4,rpi/pisp -Dv4l2=true -Dgstreamer=enabled -Dtest=false -Dlc-compliance=disabled -Dcam=disabled -Dqcam=disabled -Ddocumentation=disabled -Dpycamera=enabled
+# ninja -C build install
+# sudo ninja -C build install
+
+# cd 
+# git clone https://github.com/raspberrypi/rpicam-apps.git
+# cd rpicam-apps/
+# sudo apt -y install cmake libboost-program-options-dev libdrm-dev libexif-dev
+# sudo apt -y install ffmpeg libavcodec-extra libavcodec-dev libavdevice-dev libpng-dev libpng-tools libepoxy-dev 
+# sudo apt -y install qt5-qmake qtmultimedia5-dev
+# meson setup build -Denable_libav=disabled -Denable_drm=enabled -Denable_egl=enabled -Denable_qt=enabled -Denable_opencv=disabled -Denable_tflite=disabled -Denable_hailo=disabled 
+# meson compile -C build
+# sudo meson install -C build
+
+
 
 # create workspace
 mkdir -p ~/camera_ws/src
@@ -48,9 +76,9 @@ cd ~/camera_ws/src
 # check out libcamera
 sudo apt -y install python3-colcon-meson
 # Option A: official upstream
-git clone https://git.libcamera.org/libcamera/libcamera.git
+# git clone https://git.libcamera.org/libcamera/libcamera.git
 # Option B: raspberrypi fork with support for newer camera modules
-# git clone https://github.com/raspberrypi/libcamera.git
+git clone https://github.com/raspberrypi/libcamera.git
 
 # check out this camera_ros repository
 git clone https://github.com/christianrauch/camera_ros.git
@@ -60,4 +88,18 @@ source /opt/ros/$ROS_DISTRO/setup.bash
 cd ~/camera_ws/
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO --skip-keys=libcamera
 colcon build --event-handlers=console_direct+
+
+# setup ros workspaces
+mkdir -p ~/class_ws/src
+cd ~/class_ws/src
+git clone git@github.com:UML-EECE-5560/alexbot-code.git
+git clone https://github.com/Slamtec/sllidar_ros2.git
+cd ..
+catkin build --symlink-install
+source ~/class_ws/install/setup.bash
+
+mkdir -p ~/ros_ws/src
+cd ~/ros_ws
+catkin build
+source ~/ros_ws/install/setup.bash
 
