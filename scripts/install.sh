@@ -12,16 +12,21 @@
 
 # TODO: clean up apt installs
 
-sudo usermod -a -G video student
-
-sudo apt update
-sudo apt -y upgrade
 
 # Max USB power
 
 sudo sed -i s/usb_max_current_enable=0/usb_max_current_enable=1 /boot/firmware/config.txt
 
 sudo rpi-eeprom-config --edit
+
+
+
+sudo usermod -a -G video student
+
+sudo apt update
+sudo apt -y upgrade
+
+
 
 # Generic dependencies
 
