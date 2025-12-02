@@ -22,6 +22,7 @@ sudo rpi-eeprom-config --edit
 
 
 sudo usermod -a -G video student
+sudo usermod -a -G dialout student
 
 sudo apt update
 sudo apt -y upgrade
