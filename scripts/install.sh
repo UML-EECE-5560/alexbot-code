@@ -116,7 +116,7 @@ git clone https://github.com/UML-EECE-5560/alexbot-code.git
 git clone https://github.com/Slamtec/sllidar_ros2.git
 cd ..
 source ~/camera_ws/install/setup.bash
-colcon build --symnlink-install
+colcon build --symlink-install
 source ~/class_ws/install/setup.bash
 
 mkdir -p ~/ros_ws/src
