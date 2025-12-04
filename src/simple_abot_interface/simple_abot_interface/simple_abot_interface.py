@@ -48,7 +48,7 @@ class SimpleAbotInterface(Node):
         encoders = self.ser.read_until('\n')
         self.get_logger().debug('Received (possibly incomplete) serial message: ' + encoders.decode("UTF-8"))
         # if we timed out, \n should NOT be included at the end
-        if encoders != None and encoders[-1] != '\n':
+        if encoders != None and len(encoders) > 0 and encoders[-1] != '\n':
             self.encoder_pub.publish(encoders)
 
         self.ser.write(self.cmd_string)
