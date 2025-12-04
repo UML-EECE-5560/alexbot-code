@@ -13,7 +13,7 @@ class SimpleAbotInterface(Node):
             self.cmd_vel_cb,
             10)
         
-        self.encoder_pub = self.create_publisher(String, 'abot/encoder_string')
+        self.encoder_pub = self.create_publisher(String, 'abot/encoder_string', 10)
         # run about twice as fast as the 10Hz encoder pub from arduino
         self.timer = self.create_timer(0.05, self.run_serial)
 
