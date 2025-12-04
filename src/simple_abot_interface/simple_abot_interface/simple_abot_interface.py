@@ -44,7 +44,7 @@ class SimpleAbotInterface(Node):
         else:
             sign_r = 'p'
         # format: b'rn00.00,ln00.00,'
-        self.cmd_string = ("r%s%02.2f,l%s%02.2f" %(sign_r, vel_r, sign_l, vel_l)).encode("UTF-8")
+        self.cmd_string = ("r%s%05.2f,l%s%05.2f," %(sign_r, vel_r, sign_l, vel_l)).encode("UTF-8")
     
     def run_serial(self):
         encoders = self.ser.read_until('\n')
