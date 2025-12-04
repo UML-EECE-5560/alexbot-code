@@ -35,14 +35,16 @@ class SimpleAbotInterface(Node):
 
         if vel_l < 0.0:
             sign_l = 'n'
+            vel_l = -vel_l
         else:
             sign_l = 'p'
         if vel_r < 0.0:
             sign_r = 'n'
+            vel_r = -vel_r
         else:
             sign_r = 'p'
         # format: b'rn00.00,ln00.00,'
-        self.cmd_string = ("r%s%2.2f,l%s%2.2f" %(sign_r, vel_r, sign_l, vel_l)).encode("UTF-8")
+        self.cmd_string = ("r%s%02.2f,l%s%02.2f" %(sign_r, vel_r, sign_l, vel_l)).encode("UTF-8")
     
     def run_serial(self):
         encoders = self.ser.read_until('\n')
