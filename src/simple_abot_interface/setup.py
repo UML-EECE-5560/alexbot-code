@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'simple_abot_interface = simple_abot_interface.simple_abot_interface:main',
         ],
     },
 )
